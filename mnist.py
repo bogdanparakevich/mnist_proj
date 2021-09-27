@@ -7,7 +7,7 @@ from sklearn.utils import shuffle
 data = pd.read_csv('/Users/bogdan_parakevich/mnist_proj/train.csv')
 data = np.array(data)
 
-epochs = 21
+epochs = 26
 alpha = 0.1
 momentum = 0.9
 change_W1 = 0.001
@@ -83,10 +83,10 @@ for i in range(epochs):
         A2 = softmax(Z2)
 
         dZ2 = A2 - Y_batches[k]
-        dW2 = 1 / m_batch * dZ2.dot(A1.T)
+        dW2 = 1 / m_batch * dZ2 @ A1.T
         db2 = 1 / m_batch * np.sum(dZ2)
-        dZ1 = W2.T.dot(dZ2) * ReLU_deriv(Z1)
-        dW1 = 1 / m_batch * dZ1.dot(X_batches[k].T)
+        dZ1 = W2.T @ dZ2 * ReLU_deriv(Z1)
+        dW1 = 1 / m_batch * dZ1 @ X_batches[k].T
         db1 = 1 / m_batch * np.sum(dZ1)
 
         change_W1 = (momentum * change_W1) - (alpha * dW1)
